@@ -1,0 +1,123 @@
+.meetup-container {
+  display: flex;
+  justify-content: center;
+  padding: 2rem;
+}
+
+.meetup-details {
+  background-color: gray;
+  padding: 2rem;
+  border-radius: 12px;
+  width: 100%;
+  max-width: 600px;
+  color: white;
+
+  h2 {
+    font-size: 1.8rem;
+    margin-bottom: 1.5rem;
+  }
+
+  p {
+    font-size: 1.2rem;
+    margin: 1rem 0;
+  }
+
+  .reviews-section {
+    background-color: #e0e0e0;
+    padding: 1.5rem;
+    border-radius: 8px;
+    margin: 2rem 0;
+    color: black;
+
+    .review-item {
+      display: flex;
+      gap: 1rem;
+      margin: 1.5rem 0;
+      align-items: flex-start;
+
+      .review-number {
+        font-weight: bold;
+        min-width: 30px;
+      }
+
+      .review-content {
+        flex: 1;
+
+        .review-header {
+          display: flex;
+          align-items: center;
+          gap: 1rem;
+          margin-bottom: 0.5rem;
+
+          .review-username {
+            font-weight: 600;
+            color: #333;
+          }
+        }
+
+        .review-text {
+          color: #666;
+          line-height: 1.4;
+        }
+      }
+    }
+
+    .review-navigation {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      margin-top: 1rem;
+
+      .nav-button {
+        background: none;
+        border: none;
+        color: #666;
+        font-size: 1.2rem;
+        cursor: pointer;
+        padding: 0.5rem;
+
+        &:hover {
+          color: #333;
+        }
+      }
+    }
+  }
+
+  .action-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin: 2rem 0;
+
+    .action-button {
+      padding: 1rem;
+      background-color: #b08989;
+      border: none;
+      border-radius: 4px;
+      color: white;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: background-color 0.2s;
+
+      &:hover {
+        background-color: gray;
+      }
+    }
+  }
+
+  .show-more {
+    width: 100%;
+    padding: 1rem;
+    background-color: #b08989;
+    border: none;
+    border-radius: 4px;
+    color: white;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.2s;
+
+    &:hover {
+      background-color: gray;
+    }
+  }
+}
