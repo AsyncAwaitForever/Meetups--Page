@@ -1,14 +1,20 @@
 import "./login.scss";
 import Header from "../../components/Header/Header";
-import Navbar from "../../components/Navbar/Navbar";
+import LoginForm from "../../components/LoginForm/LoginForm";
+import SignUpForm from "../../components/SignUpForm/SignUpForm";
 
 const Login = () => {
   return (
-    <div>
+    <div className="loginPage">
       <Header />
-      <Navbar />
-      <div className="overlay">
-        <div className="overlayContent"> </div>
+
+      <div className="loginPage__form-container">
+        <LoginForm />
+        {/* <SignUpForm /> */}
+
+        <div className="overlay">
+          <div className="overlayContent"> </div>
+        </div>
       </div>
     </div>
   );

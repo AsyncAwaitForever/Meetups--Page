@@ -1,0 +1,9 @@
+@import '../../styling/_variables'; 
+
+
+.form-button {
+    background-color: $default-button-bkg-color;
+    color: $default-button-text-color;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+}

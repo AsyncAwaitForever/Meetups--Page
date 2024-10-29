@@ -1,0 +1,9 @@
+@import '../../styling/_variables'; 
+
+.loginForm-container {
+
+    background-color: red;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
