@@ -10,6 +10,7 @@ const Login = () => {
 
       <div className="loginPage__form-container">
         <LoginForm />
+
         {/* <SignUpForm /> */}
 
         <div className="overlay">

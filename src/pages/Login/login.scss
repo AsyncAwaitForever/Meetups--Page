@@ -1,19 +1,21 @@
 .loginPage {
-    min-height: 800px;
-    height: 100vh;
+  min-height: 800px;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  width: 40%;
+  max-width: 1000px;
+  margin: 0 auto;
+
+  &__form-container {
+    width: 70%;
+    height: 70%;
+    margin-bottom: 7rem;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
-    width: 40%; 
-    max-width: 1000px; 
-    margin: 0 auto; 
-    background-color: aqua;
-
-&__form-container {
-    min-width: 70%;
-    min-height:70%;
-    background-color: black;
-    margin-bottom: 7rem;
-}
+  }
 }
