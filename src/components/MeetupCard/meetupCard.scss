@@ -1,0 +1,23 @@
+.meetupCard {
+  background-color: gray;
+  padding: 2.5rem;
+  border-radius: 12px;
+  cursor: pointer;
+  min-width: 350px;
+  min-height: 250px;
+  color: white;
+  transition: transform 0.2s ease;
+
+  &:hover {
+    transform: translateY(-5px);
+  }
+
+  &__title {
+    margin-bottom: 1.5rem;
+    font-size: 1.8rem;
+  }
+
+  &__description {
+    font-size: 1.3rem;
+  }
+}
