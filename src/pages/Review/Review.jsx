@@ -1,12 +1,10 @@
 import "./review.scss";
 import Header from "../../components/Header/Header";
-import Navbar from "../../components/Navbar/Navbar";
 
 const Review = () => {
   return (
     <div>
       <Header />
-      <Navbar />
       <div className="reviewContainer">
         <h1 className="reviewTitle">fdfsd</h1>
         <div className="starsRating"></div>

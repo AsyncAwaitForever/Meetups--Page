@@ -4,6 +4,8 @@ import Login from "../pages/Login/Login.jsx";
 import Profile from "../pages/Profile/Profile.jsx";
 import Review from "../pages/Review/Review.jsx";
 import Meetups from "../pages/Meetups/Meetups.jsx";
+import "../styling/global.scss";
+
 export default function AppRoutes() {
   return (
     <BrowserRouter>
