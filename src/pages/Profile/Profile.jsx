@@ -1,4 +1,4 @@
-import "./Profile.scss";
+import "./profile.scss";
 import Header from "../../components/Header/Header";
 import Navbar from "../../components/Navbar/Navbar";
 

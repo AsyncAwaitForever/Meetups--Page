@@ -1,4 +1,4 @@
-import "./Home.scss";
+import "./home.scss";
 import Header from "../../components/Header/Header";
 import Navbar from "../../components/Navbar/Navbar";
 import MeetupBoard from "../../components/MeetupBoard/MeetupBoard";
