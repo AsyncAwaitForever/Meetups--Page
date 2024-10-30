@@ -4,6 +4,8 @@ import Login from "../pages/Login/Login.jsx";
 import Profile from "../pages/Profile/Profile.jsx";
 import Review from "../pages/Review/Review.jsx";
 import Meetups from "../pages/Meetups/Meetups.jsx";
+import TestPage from "../pages/testpage.jsx";
+
 import "../styling/global.scss";
 
 export default function AppRoutes() {
@@ -15,6 +17,7 @@ export default function AppRoutes() {
         <Route path="/profile" element={<Profile />} />
         <Route path="/meetups" element={<Meetups />} />
         <Route path="/review" element={<Review />} />
+        <Route path="/test" element={<TestPage />} />
       </Routes>
     </BrowserRouter>
   );

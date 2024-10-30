@@ -9,13 +9,44 @@ const LoginForm = ({ toggleOverlay }) => {
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
-    console.log("Login:", { email, password });
+    console.log("Login attempt with:", { email, password });
+
+    const mockEndpoint = 'https://jsonplaceholder.typicode.com/posts';
+
+    try {
+      const response = await fetch(mockEndpoint, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, password }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      const token = "mock-token-12345"; 
+      console.log("Simulated token:", token);
+      console.log("Simulated login success with data:", { ...data, token });
+
+      sessionStorage.setItem('token', token);
+      alert("Login successfully!");
+    } catch (error) {
+      console.error("Login failed:", error);
+    }
   };
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
+  };
+
+  const handleLogout = () => {
+    sessionStorage.removeItem('token');
+    alert("Token removed!");
   };
 
   return (
@@ -26,16 +57,6 @@ const LoginForm = ({ toggleOverlay }) => {
           label="Email"
           type="email"
           variant="outlined"
-          sx={{
-            "& .MuiInputLabel-root.Mui-focused": {
-              color: "blue",
-              backgroundColor: "#A1AFFB", 
-              transform: "translate(10px, -16px)",  
-                padding:"2px",
-                fontSize:"14px",
-                borderRadius:"4px"
-            },
-          }}
           fullWidth
           margin="normal"
           value={email}
@@ -46,16 +67,6 @@ const LoginForm = ({ toggleOverlay }) => {
           label="Password"
           type={showPassword ? "text" : "password"}
           variant="outlined"
-          sx={{
-            "& .MuiInputLabel-root.Mui-focused": {
-              color: "blue",
-              backgroundColor: "#A1AFFB", 
-              transform: "translate(10px, -16px)", 
-                padding:"2px",
-                fontSize:"16px",
-                borderRadius:"4px"
-            },
-          }}
           fullWidth
           margin="normal"
           value={password}
@@ -64,16 +75,19 @@ const LoginForm = ({ toggleOverlay }) => {
           InputProps={{
             endAdornment: (
               <InputAdornment position="end">
-                <IconButton aria-label="toggle password visibility" onClick={togglePasswordVisibility} edge="end">
+                <IconButton onClick={togglePasswordVisibility} edge="end">
                   {showPassword ? <VisibilityOff /> : <Visibility />}
                 </IconButton>
               </InputAdornment>
             ),
           }}
         />
-        <FormButton type="button" text="Login" className="login-button" onClick={handleLogin} />
+        <FormButton type="submit" text="Login" className="login-button" />
         <FormButton type="button" text="Sign Up" className="overlayToggle-button" onClick={toggleOverlay} />
       </form>
+      <button onClick={handleLogout} style={{ marginTop: '10px' }}>
+        Remove Token (Logout)
+      </button>
     </div>
   );
 };
