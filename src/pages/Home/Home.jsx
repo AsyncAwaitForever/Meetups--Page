@@ -1,37 +1,38 @@
-import "./home.scss";
+import { useMeetups } from "../../hooks/useMeetups";
 import Header from "../../components/Header/Header";
 import MeetupBoard from "../../components/MeetupBoard/MeetupBoard";
 import SearchBar from "../../components/SearchBar/SearchBar";
+import "./home.scss";
 
 export default function Home() {
-  //här måste vi fixa med backenden detta är mockdata
+  const { meetups, loading, error } = useMeetups();
 
-  const meetups = [
-    {
-      id: 1,
-      title: "Meet up one",
-      category: "Tech",
-      description: "Description",
-    },
-    {
-      id: 2,
-      title: "Meet up two",
-      category: "Sport",
-      description: "Description",
-    },
-    {
-      id: 3,
-      title: "Meet up three",
-      category: "Food",
-      description: "Description",
-    },
-    {
-      id: 4,
-      title: "Meet up four",
-      category: "Art",
-      description: "Description",
-    },
-  ];
+  console.log("Current meetups state:", meetups); // Debug log
+
+  if (loading) {
+    return (
+      <>
+        <Header />
+        <div className="page-container">
+          <div className="loading-message">Loading meetups...</div>
+        </div>
+      </>
+    );
+  }
+
+  if (error) {
+    return (
+      <>
+        <Header />
+        <div className="page-container">
+          <div className="error-message">
+            {error}
+            <button onClick={() => window.location.reload()}>Try Again</button>
+          </div>
+        </div>
+      </>
+    );
+  }
 
   return (
     <>

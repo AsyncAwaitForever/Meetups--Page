@@ -1,11 +1,16 @@
 import { useNavigate } from "react-router-dom";
 import "./meetupCard.scss";
 
-const MeetupCard = ({ id, title, description, category }) => {
+const MeetupCard = ({ meetupId, title, category, description }) => {
   const navigate = useNavigate();
 
+  const handleClick = () => {
+    console.log("Navigating to meetup:", meetupId);
+    navigate(`/meetups/${meetupId}`);
+  };
+
   return (
-    <div className="meetupCard" onClick={() => navigate(`/meetups/${id}`)}>
+    <div className="meetupCard" onClick={handleClick}>
       <h3 className="meetupCard__title">{title}</h3>
       <span className="meetupCard__category">{category}</span>
       <p className="meetupCard__description">{description}</p>
@@ -14,5 +19,3 @@ const MeetupCard = ({ id, title, description, category }) => {
 };
 
 export default MeetupCard;
-
-//här måste vi fixa med backenden
