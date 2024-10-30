@@ -13,10 +13,10 @@ const LoginForm = ({ toggleOverlay }) => {
     e.preventDefault();
     console.log("Login attempt with:", { email, password });
 
-    const mockEndpoint = 'https://jsonplaceholder.typicode.com/posts';
+    const endpoint = 'https://uw8qzn03l8.execute-api.eu-north-1.amazonaws.com/login';
 
     try {
-      const response = await fetch(mockEndpoint, {
+      const response = await fetch(endpoint, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -29,12 +29,15 @@ const LoginForm = ({ toggleOverlay }) => {
       }
 
       const data = await response.json();
-      const token = "mock-token-12345"; 
-      console.log("Simulated token:", token);
-      console.log("Simulated login success with data:", { ...data, token });
+      console.log("Response data:", data);
 
-      sessionStorage.setItem('token', token);
-      alert("Login successfully!");
+      if (data.success && data.token) {
+        sessionStorage.setItem('token', data.token);
+        console.log("Token saved in session storage.");
+        alert("Login successful!");
+      } else {
+        throw new Error("Login failed: invalid response data.");
+      }
     } catch (error) {
       console.error("Login failed:", error);
     }
