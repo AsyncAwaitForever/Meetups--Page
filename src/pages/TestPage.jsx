@@ -7,8 +7,8 @@ const TestPage = () => {
 
   return (
     <div>
-      {isBlurred && <div className="blur" />} {/* Aggiungi la classe blur */}
-      <div style={{ position: "relative", zIndex: 1 }}> {/* Contenuto sopra il blur */}
+      {isBlurred && <div className="blur" />} 
+      <div style={{ position: "relative", zIndex: 1 }}> 
         {isAuthenticated ? (
           <>
             <h1>Welcome to the Protected Page!</h1>
