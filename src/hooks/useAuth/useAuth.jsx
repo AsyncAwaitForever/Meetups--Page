@@ -1,31 +1,28 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 
 const useAuth = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [isBlurred, setIsBlurred] = useState(false);
   const navigate = useNavigate();
+  const alertShown = useRef(false);
 
   useEffect(() => {
     const token = sessionStorage.getItem("token");
 
     if (!token) {
       setIsAuthenticated(false);
-      if (!isBlurred) {
-        setIsBlurred(true);
-        setTimeout(() => {
-          alert("You must login to access this page.");
-          setIsBlurred(false);
-          navigate("/login");
-        }, 500); 
+      if (!alertShown.current) {
+        alertShown.current = true; 
+        alert("You must login to access this page.");
+        navigate("/login");
       }
     } else {
       setIsAuthenticated(true);
-      setIsBlurred(false);
+      alertShown.current = false; 
     }
-  }, [navigate, isBlurred]);
+  }, [navigate]);
 
-  return { isAuthenticated, isBlurred };
+  return { isAuthenticated };
 };
 
 export default useAuth;
