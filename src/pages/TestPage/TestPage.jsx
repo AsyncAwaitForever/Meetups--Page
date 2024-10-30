@@ -1,5 +1,5 @@
 import React from "react";
-import useAuth from "../hooks/useAuth/useAuth";
+import useAuth from "../../hooks/useAuth/useAuth";
 
 const TestPage = () => {
   const { isAuthenticated } = useAuth();
