@@ -1,0 +1,16 @@
+@import "../../styling/_variables";
+
+.form-button {
+  background-color: $default-button-bkg-color;
+  color: $default-button-text-color;
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  width: 70%;
+  margin: 0.5rem auto;
+  cursor: pointer;
+  font-size: 18px;
+
+  &:hover {
+    background-color: darken($default-button-bkg-color, 10%);
+  }
+}
