@@ -4,7 +4,7 @@ import { TextField, InputAdornment, IconButton } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import "./loginForm.scss";
 
-const LoginForm = () => {
+const LoginForm = ({ toggleOverlay }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -12,10 +12,6 @@ const LoginForm = () => {
   const handleLogin = (e) => {
     e.preventDefault();
     console.log("Login:", { email, password });
-  };
-
-  const handleShowSignUp = () => {
-    console.log("Show sign up overlay");
   };
 
   const togglePasswordVisibility = () => {
@@ -38,7 +34,6 @@ const LoginForm = () => {
                 padding:"2px",
                 fontSize:"14px",
                 borderRadius:"4px"
-              
             },
           }}
           fullWidth
@@ -59,7 +54,6 @@ const LoginForm = () => {
                 padding:"2px",
                 fontSize:"16px",
                 borderRadius:"4px"
-              
             },
           }}
           fullWidth
@@ -78,7 +72,7 @@ const LoginForm = () => {
           }}
         />
         <FormButton type="button" text="Login" className="login-button" onClick={handleLogin} />
-        <FormButton type="button" text="Sign Up" className="sign-up-button" onClick={handleShowSignUp} />
+        <FormButton type="button" text="Sign Up" className="overlayToggle-button" onClick={toggleOverlay} />
       </form>
     </div>
   );

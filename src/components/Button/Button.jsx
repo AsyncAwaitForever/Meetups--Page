@@ -4,7 +4,7 @@ import './button.scss'
 
 const FormButton = ({ text, onClick, type = 'button', className= '', id},) => {
   return (
-    <button type= {type} className={`form-button ${className}`} >
+    <button type= {type} onClick={onClick} className={`form-button ${className}`} >
         {text}
     </button>
   )
