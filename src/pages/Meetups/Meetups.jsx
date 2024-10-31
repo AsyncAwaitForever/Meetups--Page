@@ -159,12 +159,15 @@ const Meetups = () => {
         {ratings.map((rating) => (
           <div key={rating.ratingId} className="rating-item">
             <div className="rating-header">
-              <Rating readonly initialValue={rating.stars} size={20} />
+              <div className="rating-user-info">
+                <span className="user-id">Name: {rating.userId}</span>
+                <Rating readonly initialValue={rating.stars} size={20} />
+              </div>
               <span className="rating-date">
                 {new Date(rating.createdAt).toLocaleDateString()}
               </span>
             </div>
-            <p className="rating-comment">{rating.comment}</p>
+            <p className="rating-comment">{rating.text}</p>
           </div>
         ))}
       </div>
@@ -237,6 +240,12 @@ const Meetups = () => {
                 onClick={handleLeaveMeetup}
                 className="action-button leave-button"
                 disabled={leaveLoading}
+              />
+              <FormButton
+                text="Leave Review"
+                onClick={() => navigate(`/review/${id}`)}
+                className="action-button"
+                disabled={!sessionStorage.getItem("token")}
               />
               {joinError && <p className="error-message">{joinError}</p>}
               {leaveError && <p className="error-message">{leaveError}</p>}
