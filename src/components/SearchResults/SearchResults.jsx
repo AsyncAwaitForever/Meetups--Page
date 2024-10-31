@@ -59,7 +59,7 @@ const SearchResults = ({ results, loading, error, hasSearched, onClose }) => {
             </li>
           ))}
         </ul>
-        <div className="result-list-container">
+        <div className="result-list-blurrer">
         </div>
         </>
 

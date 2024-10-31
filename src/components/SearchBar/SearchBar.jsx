@@ -5,14 +5,13 @@ import "./searchBar.scss";
 
 const SearchBar = () => {
   const { results, loading, error, search, hasSearched } = useSearch();
-  const [showResults, setShowResults] = useState(false); 
-  console.log("resultsfrom SearchBar", results);
+  const [showResults, setShowResults] = useState(false);
 
   const handleSearch = (event) => {
     event.preventDefault();
     const query = event.target.elements.query.value;
     search(query);
-    setShowResults(true); 
+    setShowResults(true);
   };
 
   return (
@@ -23,13 +22,13 @@ const SearchBar = () => {
           Search
         </button>
       </form>
-      {showResults && ( 
-        <SearchResults 
-          results={results} 
-          loading={loading} 
-          error={error} 
-          hasSearched={hasSearched} 
-          onClose={() => setShowResults(false)} 
+      {showResults && (
+        <SearchResults
+          results={results}
+          loading={loading}
+          error={error}
+          hasSearched={hasSearched}
+          onClose={() => setShowResults(false)}
         />
       )}
     </div>
