@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 const Profile = () => {
   return (
-    <div className="profile">
+    <div className="profileContainer">
       <Header />
       <h1>My Meet Ups</h1>
       <ul>
