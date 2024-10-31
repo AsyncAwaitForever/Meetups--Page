@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './SearchResults.scss'; 
+import './searchResults.scss'; 
 
 const SearchResults = ({ results, loading, error, hasSearched, onClose }) => {
   const [visible, setVisible] = useState(true);
