@@ -14,3 +14,26 @@
     background-color: darken($default-button-bkg-color, 10%);
   }
 }
+
+.close-button {
+  width: 32%;
+  text-align: center;
+  font-size: 18px;
+  margin: -50px 20px 80px auto;
+
+  background-color: transparent;
+
+}
+
+.login-button {
+  margin-top: 2rem;
+}
+
+.logout-button {
+  width: 20%;
+  text-align: center;
+  font-size: 14px;
+  margin-right: 20px;
+  background-color: transparent;
+  border: none;
+}
