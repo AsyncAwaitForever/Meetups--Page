@@ -15,7 +15,7 @@ const useSearch = () => {
         return;
       }
   
-    const endpoint = `https://uw8qzn03l8.execute-api.eu-north-1.amazonaws.com/meetups/search?keyword=${encodeURIComponent(query)}`;
+    const endpoint = `https://2wwh49b9bf.execute-api.eu-north-1.amazonaws.com/meetups/search?keyword=${encodeURIComponent(query)}`;
 
   
     try {
