@@ -24,7 +24,7 @@ const SearchResults = ({ results, loading, error, hasSearched, onClose }) => {
       {!loading && hasSearched && results.length === 0 && <p className="no-results">No results found</p>}
 
       {results.length > 0 && (
-        <ul className="results-list">
+        <>        <ul className="results-list">
           {results.map((item) => (
             <li key={item.meetupId}>
               <h3>
@@ -59,8 +59,13 @@ const SearchResults = ({ results, loading, error, hasSearched, onClose }) => {
             </li>
           ))}
         </ul>
+        <div className="result-list-container">
+        </div>
+        </>
+
       )}
     </div>
+
   );
 };
 
