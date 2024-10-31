@@ -5,7 +5,6 @@ const MeetupCard = ({ meetupId, title, category, description }) => {
   const navigate = useNavigate();
 
   const handleClick = () => {
-    console.log("Navigating to meetup:", meetupId);
     navigate(`/meetups/${meetupId}`);
   };
 

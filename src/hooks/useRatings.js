@@ -1,34 +1,6 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 
-// Mock ratings data (replace with actual API calls later)
-const mockRatings = {
-  1: [
-    {
-      ratingId: "r1",
-      userId: "u1",
-      meetupId: "1",
-      stars: 5,
-      comment: "Great session!",
-    },
-    {
-      ratingId: "r2",
-      userId: "u2",
-      meetupId: "1",
-      stars: 4,
-      comment: "Very informative",
-    },
-  ],
-  2: [
-    {
-      ratingId: "r3",
-      userId: "u3",
-      meetupId: "2",
-      stars: 5,
-      comment: "Excellent meetup!",
-    },
-  ],
-  // Add more mock ratings as needed
-};
+const API_BASE_URL = "https://uw8qzn03l8.execute-api.eu-north-1.amazonaws.com";
 
 export const useRatings = (meetupId) => {
   const [ratings, setRatings] = useState([]);
@@ -36,25 +8,43 @@ export const useRatings = (meetupId) => {
   const [error, setError] = useState(null);
 
   const fetchRatings = useCallback(async () => {
+    if (!meetupId) return;
+
     setLoading(true);
     try {
-      // Simulate API call - replace with actual API call later
-      const mockData = mockRatings[meetupId] || [];
-      setRatings(mockData);
+      const response = await fetch(
+        `${API_BASE_URL}/meetups/${meetupId}/ratings`
+      );
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      console.log("Ratings response:", data);
+
+      setRatings(data.ratings || []);
       setError(null);
     } catch (error) {
       console.error("Error fetching ratings:", error);
       setError("Failed to load ratings");
+      setRatings([]);
     } finally {
       setLoading(false);
     }
   }, [meetupId]);
 
   const calculateAverageRating = useCallback(() => {
-    if (ratings.length === 0) return 0;
-    const sum = ratings.reduce((acc, rating) => acc + rating.stars, 0);
-    return sum / ratings.length;
+    if (!ratings.length) return 0;
+    const sum = ratings.reduce((acc, rating) => acc + Number(rating.stars), 0);
+    return (sum / ratings.length).toFixed(1);
   }, [ratings]);
+
+  useEffect(() => {
+    if (meetupId) {
+      fetchRatings();
+    }
+  }, [meetupId, fetchRatings]);
 
   return {
     ratings,

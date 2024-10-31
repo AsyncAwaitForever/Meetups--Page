@@ -1,109 +1,131 @@
-import { useParams, useNavigate } from "react-router-dom";
-import { useState, useEffect, useCallback } from "react";
+import { useParams } from "react-router-dom";
+import { useState, useEffect } from "react";
 import { Rating } from "react-simple-star-rating";
 import { useMeetups } from "../../hooks/useMeetups";
+import { useRatings } from "../../hooks/useRatings";
 import Header from "../../components/Header/Header";
 import "./meetups.scss";
 
 const Meetups = () => {
-  // Hooks
   const { id } = useParams();
-  const navigate = useNavigate();
   const { getMeetupById } = useMeetups();
+  const {
+    ratings,
+    loading: ratingsLoading,
+    error: ratingsError,
+    averageRating,
+    totalRatings,
+  } = useRatings(id);
 
-  // State
   const [meetup, setMeetup] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // Fetch meetup data
-  const loadMeetup = useCallback(async () => {
-    if (!id) return;
+  useEffect(() => {
+    let mounted = true;
 
-    try {
-      setLoading(true);
-      const data = await getMeetupById(id);
-      setMeetup(data);
-    } catch (err) {
-      console.error("Failed to load meetup:", err);
-      setError("Failed to load meetup details");
-    } finally {
-      setLoading(false);
-    }
+    const loadMeetup = async () => {
+      if (!id) return;
+
+      try {
+        const data = await getMeetupById(id);
+        if (mounted) {
+          setMeetup(data.meetup);
+          setError(null);
+        }
+      } catch {
+        if (mounted) {
+          setError("Failed to load meetup details");
+        }
+      } finally {
+        if (mounted) {
+          setLoading(false);
+        }
+      }
+    };
+
+    loadMeetup();
+
+    return () => {
+      mounted = false;
+    };
   }, [id, getMeetupById]);
 
-  useEffect(() => {
-    loadMeetup();
-  }, [loadMeetup]);
+  const renderRatings = () => {
+    if (ratingsLoading) return <p>Loading reviews...</p>;
+    if (ratingsError) return <p>Error loading reviews: {ratingsError}</p>;
+    if (!ratings.length) return <p>No reviews yet</p>;
 
-  // Loading and error states
+    return (
+      <div className="ratings-list">
+        {ratings.map((rating) => (
+          <div key={rating.ratingId} className="rating-item">
+            <div className="rating-header">
+              <Rating readonly initialValue={rating.stars} size={20} />
+              <span className="rating-date">
+                {new Date(rating.createdAt).toLocaleDateString()}
+              </span>
+            </div>
+            <p className="rating-comment">{rating.comment}</p>
+          </div>
+        ))}
+      </div>
+    );
+  };
+
   if (loading)
     return <div className="loading-message">Loading meetup details...</div>;
   if (error) return <div className="error-message">{error}</div>;
   if (!meetup) return <div className="error-message">Meetup not found</div>;
 
-  // Calculate average rating
-  const averageRating =
-    meetup.ratings.length > 0
-      ? meetup.ratings.reduce((acc, curr) => acc + curr.stars, 0) /
-        meetup.ratings.length
-      : 0;
-
   return (
     <div>
       <Header />
       <div className="meetup-container">
-        {/* Meetup Details */}
         <div className="meetup-details">
-          <div className="meetup-header">
-            <h2>{meetup.title}</h2>
-            <div className="rating-summary">
-              <Rating readonly initialValue={averageRating} size={24} />
-              <span>({meetup.ratings.length} reviews)</span>
-            </div>
-          </div>
-
-          {/* Basic Info */}
+          <h2>{meetup.title}</h2>
           <div className="meetup-info">
-            <p>Category: {meetup.category}</p>
-            <p>Location: {meetup.location}</p>
-            <p>Time: {new Date(meetup.time).toLocaleString()}</p>
-            <p>Host: {meetup.host}</p>
-            <p>Description: {meetup.description}</p>
+            {/* Average Rating Display */}
+            <div className="rating-summary">
+              <Rating
+                readonly
+                initialValue={Number(averageRating)}
+                size={24}
+                allowFraction
+              />
+              <span className="rating-average">
+                {averageRating} ({totalRatings}{" "}
+                {totalRatings === 1 ? "review" : "reviews"})
+              </span>
+            </div>
+
+            {/* Meetup Details */}
             <p>
-              Available Spots: {meetup.availableCapacity} / {meetup.maxCapacity}
+              <strong>Location:</strong> {meetup.location}
             </p>
-          </div>
+            <p>
+              <strong>Date & Time:</strong>{" "}
+              {new Date(meetup.time).toLocaleString()}
+            </p>
+            <p>
+              <strong>Host:</strong> {meetup.host}
+            </p>
+            <p>
+              <strong>Category:</strong> {meetup.category}
+            </p>
+            <p>
+              <strong>Description:</strong> {meetup.description}
+            </p>
+            <p>
+              <strong>Available Spots:</strong> {meetup.availableCapacity} /{" "}
+              {meetup.maxCapacity}
+            </p>
 
-          {/* Reviews Section */}
-          <div className="ratings-section">
-            <h3>Reviews</h3>
-            {meetup.ratings.length > 0 ? (
-              <div className="ratings-list">
-                {meetup.ratings.map((rating) => (
-                  <div key={rating.ratingId} className="rating-item">
-                    <div className="rating-header">
-                      <Rating readonly initialValue={rating.stars} size={20} />
-                      <span className="rating-user">User: {rating.userId}</span>
-                    </div>
-                    <p className="rating-comment">{rating.comment}</p>
-                  </div>
-                ))}
-              </div>
-            ) : (
-              <p>No reviews yet</p>
-            )}
-          </div>
-
-          {/* Action Buttons */}
-          <div className="action-buttons">
-            <button
-              className="action-button"
-              onClick={() => navigate(`/review/${id}`)}
-            >
-              Write review
-            </button>
-            <button className="action-button">Join this meetup</button>
+            {/* Reviews Section */}
+            <div className="reviews-section">
+              <h3>Reviews</h3>
+              {renderRatings()}
+            </div>
           </div>
         </div>
       </div>
