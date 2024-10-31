@@ -12,13 +12,13 @@ const useAuth = () => {
     if (!token) {
       setIsAuthenticated(false);
       if (!alertShown.current) {
-        alertShown.current = true; 
         alert("You must login to access this page.");
-        navigate("/login");
+        alertShown.current = true; 
+        navigate("/login", { replace: true });  
       }
     } else {
       setIsAuthenticated(true);
-      alertShown.current = false; 
+      alertShown.current = false;
     }
   }, [navigate]);
 
