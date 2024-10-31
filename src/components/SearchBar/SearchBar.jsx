@@ -4,7 +4,7 @@ import SearchResults from "../SearchResults/SearchResults";
 import "./searchBar.scss";
 
 const SearchBar = () => {
-  const { results, loading, error, search } = useSearch();
+  const { results, loading, error, search, hasSearched } = useSearch();
   console.log("resultsfrom SearchBar", results);
 
   const handleSearch = (event) => {
@@ -21,15 +21,7 @@ const SearchBar = () => {
           Search
         </button>
       </form>
-      {loading && <p>Loading...</p>}
-      {error && <p style={{ color: "red" }}>{error}</p>}
-      {!loading && !error && results.length === 0 && <p>No results found.</p>}
-      {results.length > 0 && (
-    <>
-        {console.log(results)}
-        <SearchResults results={results} />
-    </>
-)}
+      <SearchResults results={results} loading={loading} error={error} hasSearched={hasSearched} />
 
     </div>
   );

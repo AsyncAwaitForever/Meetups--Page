@@ -1,11 +1,12 @@
 import React from 'react';
+import './SearchResults.scss';
 
-const SearchResults = ({ results, loading, error }) => {
+const SearchResults = ({ results, loading, error, hasSearched }) => {
   return (
-    <div>
+    <div className='searchResults-container'>
       {loading && <p>Loading...</p>}
       {error && <p style={{ color: 'red' }}>{error}</p>}
-      {!loading && results.length === 0 && <p>No results found.</p>}
+      {!loading && hasSearched && results.length === 0 && <p>No results found.</p>} 
       {results.length > 0 && (
         <ul className='results-list'>
           {results.map(item => (
