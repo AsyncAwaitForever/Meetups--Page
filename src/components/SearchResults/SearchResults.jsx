@@ -26,6 +26,7 @@ const SearchResults = ({ results, loading, error, hasSearched, onClose }) => {
           {results.map(item => (
             <li key={item.meetupId}>
               <h3><a href={`/meetups/${item.meetupId}`}>{item.title}</a></h3>
+              <div>
               <p><strong>Location:</strong> {item.location}</p>
               <p><strong>Host:</strong> {item.host}</p>
               <p><strong>Category:</strong> {item.category}</p>
@@ -33,6 +34,7 @@ const SearchResults = ({ results, loading, error, hasSearched, onClose }) => {
               <p><strong>Description:</strong> {item.description}</p>
               <p><strong>Available Capacity:</strong> {item.availableCapacity} / {item.maxCapacity}</p>
               <button className="closeSearch-button" onClick={handleClose}>✖</button>
+              </div>
             </li>
             
           ))}
