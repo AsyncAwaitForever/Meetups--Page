@@ -7,39 +7,21 @@ import "./home.scss";
 export default function Home() {
   const { meetups, loading, error } = useMeetups();
 
-  console.log("Current meetups state:", meetups); // Debug log
-
-  if (loading) {
-    return (
-      <>
-        <Header />
-        <div className="page-container">
-          <div className="loading-message">Loading meetups...</div>
-        </div>
-      </>
-    );
-  }
-
-  if (error) {
-    return (
-      <>
-        <Header />
-        <div className="page-container">
-          <div className="error-message">
-            {error}
-            <button onClick={() => window.location.reload()}>Try Again</button>
-          </div>
-        </div>
-      </>
-    );
-  }
-
   return (
     <>
       <Header />
       <div className="page-container">
         <SearchBar />
-        <MeetupBoard meetups={meetups} />
+        {loading ? (
+          <div className="loading-message">Loading meetups...</div>
+        ) : error ? (
+          <div className="error-message">
+            {error}
+            <button onClick={() => window.location.reload()}>Try Again</button>
+          </div>
+        ) : (
+          <MeetupBoard meetups={meetups} />
+        )}
       </div>
     </>
   );
