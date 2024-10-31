@@ -20,7 +20,7 @@ const SearchBar = () => {
       </form>
       {loading && <p>Loading...</p>}
       {error && <p style={{ color: 'red' }}>{error}</p>}
-      {!loading && results.length === 0 }
+      {!loading && results.length === 0 && <p>No results found.</p>}
       {results.length > 0 && <SearchResults results={results} />}
     </div>
   );

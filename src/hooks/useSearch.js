@@ -19,14 +19,14 @@ const useSearch = () => {
 
   
     try {
-      console.log("Invio richiesta a:", endpoint);
+      console.log("Request to:", endpoint);
       const response = await fetch(endpoint, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
         },
       });
-      console.log("Stato risposta:", response.status);
+      console.log("Status:", response.status);
       if (!response.ok) {
         const errorText = await response.text(); 
         throw new Error(`Error: ${response.status} - ${errorText}`);
