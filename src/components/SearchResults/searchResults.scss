@@ -6,13 +6,13 @@
 }
 
 .results-list {
-    position: absolute; /* Rimuove il componente dal flusso */
+    position: absolute; 
    width: 377px;
-    background: rgba(240, 240, 240, 0.8); /* Colore di sfondo semi-trasparente */
-    padding: 20px; /* Spaziatura interna */
-    z-index: 1000; /* Porta il componente in primo piano */
-    backdrop-filter: blur(10px); /* Aggiunge l'effetto blur allo sfondo */
-    border-radius: 10px; /* Rende gli angoli del componente arrotondati */
+    background: rgba(240, 240, 240, 0.8); 
+    padding: 20px; 
+    
+    backdrop-filter: blur(10px);
+    border-radius: 10px; 
     
 
     li {
@@ -21,6 +21,21 @@
         text-decoration: none;
     }
 
-  h3 {
+  h3 a {
+    text-decoration: none;
+    color: $default-button-bkg-color;
+    text-align: center;
   }
+
+  .closeSearch-button {
+    position: absolute;
+    top: 24px; 
+    right: 30px; 
+    background: transparent; 
+    border: none; 
+    font-size: 20px; 
+    cursor: pointer; 
+  }
+  
+
 }
