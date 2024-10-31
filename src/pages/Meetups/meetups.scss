@@ -1,164 +1,101 @@
 .meetup-container {
-  display: flex;
-  justify-content: center;
   padding: 2rem;
+  max-width: 800px;
+  margin: 0 auto;
 }
 
 .meetup-details {
   background-color: gray;
   padding: 2rem;
   border-radius: 12px;
-  width: 100%;
-  max-width: 600px;
   color: white;
 
   h2 {
-    font-size: 1.8rem;
     margin-bottom: 1.5rem;
+    font-size: 2rem;
   }
 
-  p {
-    font-size: 1.2rem;
-    margin: 1rem 0;
-  }
-
-  .reviews-section {
-    background-color: #e0e0e0;
-    padding: 1.5rem;
-    border-radius: 8px;
-    margin: 2rem 0;
-    color: black;
-
-    .review-item {
-      display: flex;
-      gap: 1rem;
-      margin: 1.5rem 0;
-      align-items: flex-start;
-
-      .review-number {
-        font-weight: bold;
-        min-width: 30px;
-      }
-
-      .review-content {
-        flex: 1;
-
-        .review-header {
-          display: flex;
-          align-items: center;
-          gap: 1rem;
-          margin-bottom: 0.5rem;
-
-          .review-username {
-            font-weight: 600;
-            color: #333;
-          }
-        }
-
-        .review-text {
-          color: #666;
-          line-height: 1.4;
-        }
-      }
-    }
-
-    .review-navigation {
-      display: flex;
-      justify-content: center;
-      gap: 2rem;
-      margin-top: 1rem;
-
-      .nav-button {
-        background: none;
-        border: none;
-        color: #666;
-        font-size: 1.2rem;
-        cursor: pointer;
-        padding: 0.5rem;
-
-        &:hover {
-          color: #333;
-        }
-      }
-    }
-  }
-
-  .action-buttons {
+  .meetup-info {
     display: flex;
     flex-direction: column;
     gap: 1rem;
-    margin: 2rem 0;
+    margin-bottom: 2rem;
 
-    .action-button {
-      padding: 1rem;
-      background-color: #b08989;
-      border: none;
-      border-radius: 4px;
-      color: white;
-      cursor: pointer;
-      font-size: 1rem;
-      transition: background-color 0.2s;
+    .rating-section {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1rem;
 
-      &:hover {
-        background-color: gray;
+      .rating-count {
+        color: rgba(255, 255, 255, 0.8);
+        font-size: 0.9rem;
       }
     }
-  }
 
-  .show-more {
-    width: 100%;
-    padding: 1rem;
-    background-color: #b08989;
-    border: none;
-    border-radius: 4px;
-    color: white;
-    cursor: pointer;
-    font-size: 1rem;
-    transition: background-color 0.2s;
+    .ratings-list {
+      margin-top: 2rem;
 
-    &:hover {
-      background-color: gray;
+      h3 {
+        margin-bottom: 1rem;
+      }
+
+      .rating-item {
+        background: rgba(255, 255, 255, 0.1);
+        padding: 1rem;
+        border-radius: 8px;
+        margin-bottom: 1rem;
+
+        .rating-comment {
+          margin-top: 0.5rem;
+          font-size: 0.9rem;
+          color: rgba(255, 255, 255, 0.9);
+        }
+      }
+    }
+
+    p {
+      font-size: 1.1rem;
+      line-height: 1.4;
+
+      strong {
+        color: rgba(255, 255, 255, 0.9);
+      }
     }
   }
 }
 
-.ratings-section {
+.loading-message,
+.error-message {
+  text-align: center;
+  padding: 2rem;
+  font-size: 1.2rem;
+}
+
+.error-message {
+  color: #ff6b6b;
+}
+
+.action-buttons {
   margin-top: 2rem;
-  padding: 1.5rem;
-  background-color: rgba(255, 255, 255, 0.1);
-  border-radius: 8px;
 
-  h3 {
-    margin-bottom: 1rem;
-    font-size: 1.4rem;
-  }
+  .action-button {
+    padding: 1rem 2rem;
+    background-color: #b08989;
+    border: none;
+    border-radius: 4px;
+    color: white;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: background-color 0.2s;
 
-  .ratings-list {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-  }
-
-  .rating-item {
-    padding: 1rem;
-    background-color: rgba(255, 255, 255, 0.05);
-    border-radius: 6px;
-
-    .rating-header {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-      margin-bottom: 0.5rem;
-
-      .rating-user {
-        font-size: 0.9rem;
-        opacity: 0.8;
-      }
+    &:hover:not(:disabled) {
+      background-color: darken(#b08989, 10%);
     }
 
-    .rating-comment {
-      font-size: 1rem;
-      line-height: 1.4;
+    &:disabled {
+      background-color: #666;
+      cursor: not-allowed;
     }
   }
 }
@@ -166,11 +103,52 @@
 .rating-summary {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  margin: 1rem 0;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
 
-  .rating-count {
-    font-size: 0.9rem;
-    opacity: 0.8;
+  .rating-average {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 1.1rem;
+  }
+}
+
+.reviews-section {
+  margin-top: 2rem;
+  padding-top: 2rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+
+  h3 {
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+  }
+}
+
+.ratings-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+
+  .rating-item {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 1rem;
+    border-radius: 8px;
+
+    .rating-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.5rem;
+
+      .rating-date {
+        font-size: 0.9rem;
+        color: rgba(255, 255, 255, 0.7);
+      }
+    }
+
+    .rating-comment {
+      font-size: 1rem;
+      line-height: 1.4;
+      color: rgba(255, 255, 255, 0.9);
+    }
   }
 }
