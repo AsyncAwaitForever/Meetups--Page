@@ -14,7 +14,7 @@ const LoginForm = ({ toggleOverlay }) => {
     e.preventDefault();
     console.log("Login attempt with:", { email, password });
 
-    const endpoint = "https://jsonplaceholder.typicode.com/posts";
+    const endpoint = "https://uw8qzn03l8.execute-api.eu-north-1.amazonaws.com/login";
 
     try {
       const response = await fetch(endpoint, {
@@ -63,6 +63,16 @@ const LoginForm = ({ toggleOverlay }) => {
           label="Email"
           type="email"
           variant="outlined"
+          sx={{
+            "& .MuiInputLabel-root.Mui-focused": {
+              color: "blue",
+              backgroundColor: "#A1AFFB",
+              transform: "translate(10px, -16px)",
+              padding: "2px",
+              fontSize: "16px",
+              borderRadius: "4px",
+            },
+          }}
           fullWidth
           margin="normal"
           value={email}
@@ -73,6 +83,16 @@ const LoginForm = ({ toggleOverlay }) => {
           label="Password"
           type={showPassword ? "text" : "password"}
           variant="outlined"
+          sx={{
+            "& .MuiInputLabel-root.Mui-focused": {
+              color: "blue",
+              backgroundColor: "#A1AFFB",
+              transform: "translate(10px, -16px)",
+              padding: "2px",
+              fontSize: "16px",
+              borderRadius: "4px",
+            },
+          }}
           fullWidth
           margin="normal"
           value={password}
