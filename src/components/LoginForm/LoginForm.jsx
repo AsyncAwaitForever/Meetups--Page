@@ -34,6 +34,7 @@ const LoginForm = ({ toggleOverlay }) => {
 
       if (data.success && data.token) {
         sessionStorage.setItem("token", data.token);
+        sessionStorage.setItem("userId", data.userId);
         setError("");
         alert("Login successful!");
       } else {
