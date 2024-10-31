@@ -1,7 +1,7 @@
 @import "../../styling/_variables";
 
 .searchResults-container {
-  width: 377px;
+  width: 100%;
   transform: translateY(-16px);
   display: flex;
   flex-direction: column;
@@ -10,11 +10,12 @@
 
 .results-list {
   position: absolute;
-  width: 1200px;
+  width: 80%px;
+  max-width: 80%px;
   padding: 20px;
   backdrop-filter: blur(10px);
   border-radius: 0 0 10px 10px;
-  background: rgba(136, 210, 228, 0.4);
+  background: rgba(136, 210, 228, 0.7);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -55,4 +56,11 @@
     font-size: 20px;
     cursor: pointer;
   }
+}
+
+.no-results {
+  color: #888;
+  font-size: 18px;
+  padding: 10px;
+  text-align: center;
 }
