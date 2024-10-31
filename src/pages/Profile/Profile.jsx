@@ -1,31 +1,39 @@
+import { useProfileMeetups } from '../../hooks/useProfile';
+import useSimpleAuth from '../../hooks/useAuth/useSimpleAuth';
+import { Link } from 'react-router-dom';
 import './profile.scss';
 import Header from '../../components/Header/Header';
-import { Link } from 'react-router-dom';
 
-const Profile = () => {
+const ProfileMeetupsPage = () => {
+  const token = useSimpleAuth();
+  const { profileMeetups, loading, error } = useProfileMeetups(token);
+
+  if (loading) return <div className="loading-message">Loading meetups...</div>;
+  if (error) return <div className="error-message">{error}</div>;
+  if (!profileMeetups.length)
+    return (
+      <div className="message">No meetups found. Please check back later.</div>
+    );
+
   return (
-    <div className="profileContainer">
+    <>
       <Header />
-      <h1>My Meet Ups</h1>
-      <ul>
-        <li>
-          <Link to="/meetup/1">Meet Up 1</Link>
-        </li>
-        <li>
-          <Link to="/meetup/2">Meet Up 2</Link>
-        </li>
-        <li>
-          <Link to="/meetup/3">Meet Up 3</Link>
-        </li>
-        <li>
-          <Link to="/meetup/4">Meet Up 4</Link>
-        </li>
-        <li>
-          <Link to="/meetup/5">Meet Up 5</Link>
-        </li>
-      </ul>
-    </div>
+      <div className="profile-page">
+        <h1>Your Meetups</h1>
+        <ul className="meetups-list">
+          {profileMeetups.map((meetup) => (
+            <li key={meetup.meetupId}>
+              <Link to={`/meetups/${meetup.meetupId}`} className="meetup-link">
+                {' '}
+                <h2>{meetup.title}</h2>
+                <p>Status: {meetup.status}</p>
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </>
   );
 };
 
-export default Profile;
+export default ProfileMeetupsPage;
