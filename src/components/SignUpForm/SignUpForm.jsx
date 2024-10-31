@@ -15,7 +15,7 @@ const SignUpForm = () => {
   const handleSignup = async (e) => {
     e.preventDefault();
     const isValid = validateForm();
-    const endpoint = "https://uw8qzn03l8.execute-api.eu-north-1.amazonaws.com/signup"; 
+    const endpoint = "https://2wwh49b9bf.execute-api.eu-north-1.amazonaws.com/signup"; 
 
     if (isValid) {
       try {
