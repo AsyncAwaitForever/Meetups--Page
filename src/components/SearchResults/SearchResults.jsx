@@ -30,25 +30,28 @@ const SearchResults = ({ results, loading, error, hasSearched, onClose }) => {
               <h3>
                 <a href={`/meetups/${item.meetupId}`}>{item.title}</a>
               </h3>
+              <p>
+                <strong>{new Date(item.time).toLocaleString()}</strong> 
+              </p>
+
               <div>
-                <p>
-                  <strong>Location:</strong> {item.location}
-                </p>
-                <p>
-                  <strong>Host:</strong> {item.host}
-                </p>
-                <p>
-                  <strong>Category:</strong> {item.category}
-                </p>
-                <p>
-                  <strong>Date:</strong> {new Date(item.time).toLocaleString()}
-                </p>
-                <p>
-                  <strong>Description:</strong> {item.description}
-                </p>
-                <p>
-                  <strong>Available Capacity:</strong> {item.availableCapacity} / {item.maxCapacity}
-                </p>
+                <div className="list-column">
+                  <p>
+                    <strong>Location:</strong> {item.location}
+                  </p>
+                  <p>
+                    <strong>Host:</strong> {item.host}
+                  </p>
+                </div>
+                <div className="list-column">
+                  <p>
+                    <strong>Category:</strong> {item.category}
+                  </p>
+                  <p>
+                    <strong>Available Capacity:</strong> {item.availableCapacity} / {item.maxCapacity}
+                  </p>
+                </div>
+
                 <button className="closeSearch-button" onClick={handleClose}>
                   ✖
                 </button>
