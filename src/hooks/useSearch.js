@@ -4,10 +4,12 @@ const useSearch = () => {
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [hasSearched, setHasSearched] = useState(false); 
 
   const search = async (query) => {
     setLoading(true);
     setError(null);
+    setHasSearched(false); 
 
     if (!query || query.length < 1) {
       setError("Keyword must be at least one character");
@@ -29,17 +31,10 @@ const useSearch = () => {
 
       const data = await response.json();
 
-      if (data.meetups) {
-        const filteredResults = data.meetups.filter(
-          (meetup) =>
-            meetup.title.toLowerCase().includes(normalizedQuery) ||
-            meetup.category.toLowerCase().includes(normalizedQuery) ||
-            meetup.description.toLowerCase().includes(normalizedQuery)
-        );
-        setResults(filteredResults);
-      } else {
-        setResults([]);
-      }
+      setResults(data.meetups); 
+      setHasSearched(true); 
+
+
     } catch (err) {
       setError(err.message);
     } finally {
@@ -47,7 +42,7 @@ const useSearch = () => {
     }
   };
 
-  return { results, loading, error, search };
+  return { results, loading, error, search, hasSearched };
 };
 
 export default useSearch;
