@@ -160,7 +160,7 @@ const Meetups = () => {
           <div key={rating.ratingId} className="rating-item">
             <div className="rating-header">
               <div className="rating-user-info">
-                <span className="user-id">Name: {rating.userId}</span>
+                <span className="user-id">Name: {rating.username}</span>
                 <Rating readonly initialValue={rating.stars} size={20} />
               </div>
               <span className="rating-date">
