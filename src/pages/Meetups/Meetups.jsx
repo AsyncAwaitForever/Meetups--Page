@@ -11,13 +11,7 @@ const Meetups = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const { getMeetupById } = useMeetups();
-  const {
-    ratings,
-    loading: ratingsLoading,
-    error: ratingsError,
-    averageRating,
-    totalRatings,
-  } = useRatings(id);
+  const { ratings, loading: ratingsLoading, error: ratingsError, averageRating, totalRatings } = useRatings(id);
 
   const [meetup, setMeetup] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -70,16 +64,13 @@ const Meetups = () => {
     setJoinError(null);
 
     try {
-      const response = await fetch(
-        `https://3sq393e8ml.execute-api.eu-north-1.amazonaws.com/meetups/${id}/register`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const response = await fetch(`https://3sq393e8ml.execute-api.eu-north-1.amazonaws.com/meetups/${id}/register`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
       if (!response.ok) {
         const errorData = await response.json().catch(() => ({}));
@@ -116,16 +107,13 @@ const Meetups = () => {
     setLeaveError(null);
 
     try {
-      const response = await fetch(
-        `https://3sq393e8ml.execute-api.eu-north-1.amazonaws.com/meetups/${id}/unregister`,
-        {
-          method: "DELETE",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const response = await fetch(`https://3sq393e8ml.execute-api.eu-north-1.amazonaws.com/meetups/${id}/unregister`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
       if (!response.ok) {
         const errorData = await response.json().catch(() => ({}));
@@ -163,9 +151,6 @@ const Meetups = () => {
                 <span className="user-id">Name: {rating.username}</span>
                 <Rating readonly initialValue={rating.stars} size={20} />
               </div>
-              <span className="rating-date">
-                {new Date(rating.createdAt).toLocaleDateString()}
-              </span>
             </div>
             <p className="rating-comment">{rating.text}</p>
           </div>
@@ -174,8 +159,7 @@ const Meetups = () => {
     );
   };
 
-  if (loading)
-    return <div className="loading-message">Loading meetup details...</div>;
+  if (loading) return <div className="loading-message">Loading meetup details...</div>;
   if (error) return <div className="error-message">{error}</div>;
   if (!meetup) return <div className="error-message">Meetup not found</div>;
 
@@ -188,15 +172,9 @@ const Meetups = () => {
           <div className="meetup-info">
             {/* Average Rating Display */}
             <div className="rating-summary">
-              <Rating
-                readonly
-                initialValue={Number(averageRating)}
-                size={24}
-                allowFraction
-              />
+              <Rating readonly initialValue={Number(averageRating)} size={24} allowFraction />
               <span className="rating-average">
-                {averageRating} ({totalRatings}{" "}
-                {totalRatings === 1 ? "review" : "reviews"})
+                {averageRating} ({totalRatings} {totalRatings === 1 ? "review" : "reviews"})
               </span>
             </div>
 
@@ -205,8 +183,7 @@ const Meetups = () => {
               <strong>Location:</strong> {meetup.location}
             </p>
             <p>
-              <strong>Date & Time:</strong>{" "}
-              {new Date(meetup.time).toLocaleString()}
+              <strong>Date & Time:</strong> {new Date(meetup.time).toLocaleString()}
             </p>
             <p>
               <strong>Host:</strong> {meetup.host}
@@ -218,19 +195,12 @@ const Meetups = () => {
               <strong>Description:</strong> {meetup.description}
             </p>
             <p>
-              <strong>Available Spots:</strong> {meetup.availableCapacity} /{" "}
-              {meetup.maxCapacity}
+              <strong>Available Spots:</strong> {meetup.availableCapacity} / {meetup.maxCapacity}
             </p>
 
             <div className="action-buttons">
               <FormButton
-                text={
-                  !sessionStorage.getItem("token")
-                    ? "Login to Join"
-                    : joinLoading
-                    ? "Joining..."
-                    : "Join Meetup"
-                }
+                text={!sessionStorage.getItem("token") ? "Login to Join" : joinLoading ? "Joining..." : "Join Meetup"}
                 onClick={handleJoinMeetup}
                 className="action-button"
                 disabled={joinLoading || meetup.availableCapacity === 0}
