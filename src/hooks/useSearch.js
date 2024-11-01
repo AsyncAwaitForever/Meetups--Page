@@ -15,15 +15,12 @@ const useSearch = () => {
       return;
     }
 
-    const endpoint = `https://2wwh49b9bf.execute-api.eu-north-1.amazonaws.com/meetups/search?keyword=${encodeURIComponent(query)}`;
+    const normalizedQuery = query.toLowerCase().trim();
 
     try {
-      const response = await fetch(endpoint, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      const response = await fetch(
+        "https://2wwh49b9bf.execute-api.eu-north-1.amazonaws.com/meetups"
+      );
 
       if (!response.ok) {
         const errorText = await response.text();
@@ -31,17 +28,18 @@ const useSearch = () => {
       }
 
       const data = await response.json();
-      console.log(data);
 
-      
       if (data.meetups) {
-        setResults(data.meetups);
+        const filteredResults = data.meetups.filter(
+          (meetup) =>
+            meetup.title.toLowerCase().includes(normalizedQuery) ||
+            meetup.category.toLowerCase().includes(normalizedQuery) ||
+            meetup.description.toLowerCase().includes(normalizedQuery)
+        );
+        setResults(filteredResults);
       } else {
-        setResults([]); 
+        setResults([]);
       }
-
-     /*  console.log(results); */ 
-
     } catch (err) {
       setError(err.message);
     } finally {
