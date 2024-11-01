@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { useFilters } from "../../hooks/useFilters";
-import { useMeetups } from "../../hooks/useMeetups"; // Importa l'hook qui
 import Header from "../../components/Header/Header";
 import MeetupBoard from "../../components/MeetupBoard/MeetupBoard";
 import FilterSearch from "../../components/FilterSearch/FilterSearch";
@@ -9,14 +8,14 @@ import MeetupsFiltered from "../../components/MeetupsFiltered/MeetupsFiltered";
 import "./home.scss";
 
 export default function Home() {
-  const { filters, updateFilters } = useFilters();
-  const { meetups, loading, error } = useMeetups(); // Utilizza l'hook per ottenere meetups, loading ed error
+  const { filters, updateFilters, meetups, loading, error: fetchError } = useFilters();
   const [filterVisible, setFilterVisible] = useState(false);
   const [filteredMeetups, setFilteredMeetups] = useState([]);
   const [showFiltered, setShowFiltered] = useState(false);
-
+  const [searchError, setSearchError] = useState(""); 
   const handleSearch = (newFilters) => {
     updateFilters(newFilters);
+    setSearchError(""); 
 
     if (!newFilters.date && !newFilters.category && !newFilters.location) {
       setFilteredMeetups(meetups);
@@ -37,7 +36,7 @@ export default function Home() {
     setFilterVisible(false);
 
     if (filtered.length === 0) {
-      alert("No results found");
+      setSearchError("No results found for your search."); 
     }
   };
 
@@ -48,13 +47,21 @@ export default function Home() {
         <SearchBar />
         {loading ? (
           <div className="loading-message">Loading meetups...</div>
-        ) : error ? (
+        ) : fetchError ? (
           <div className="error-message">
-            {error}
+            {fetchError}
             <button onClick={() => window.location.reload()}>Try Again</button>
           </div>
         ) : (
-          <MeetupBoard meetups={meetups} setFilterVisible={setFilterVisible} />
+          <>
+            <MeetupBoard meetups={meetups} setFilterVisible={setFilterVisible} />
+            {searchError && (
+              <div className="error-message">
+                {searchError}
+                <button onClick={() => setSearchError("")}>Clear Error</button>
+              </div>
+            )}
+          </>
         )}
         <FilterSearch
           open={filterVisible}
@@ -67,6 +74,7 @@ export default function Home() {
             onClose={() => {
               setShowFiltered(false);
               setFilteredMeetups([]);
+              setSearchError(""); 
             }}
           />
         )}
