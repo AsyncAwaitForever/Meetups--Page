@@ -26,7 +26,7 @@ export const useFilters = () => {
     if (filters.location) params.append("location", filters.location);
 
     const url = `${baseUrl}?${params.toString()}`;
-    console.log("Generated URL:", url);
+    console.log("Generated URL:", url); // Assicurati di avere il log dell'URL generato
     return url;
   };
 

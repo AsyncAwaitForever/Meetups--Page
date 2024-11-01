@@ -9,7 +9,7 @@ import "./home.scss";
 
 export default function Home() {
   const { filters, updateFilters } = useFilters();  
-  const { meetups, loading, error } = useMeetups(filters);
+  const { meetups, loading, error } = useMeetups();
   const [filterVisible, setFilterVisible] = useState(false);
 
   const handleSearch = (newFilters) => {
