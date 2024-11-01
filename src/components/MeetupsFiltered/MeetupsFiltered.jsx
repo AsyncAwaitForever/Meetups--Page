@@ -1,4 +1,4 @@
-/* import React from "react";
+import React from "react";
 import "./meetupsFiltered.scss";
 
 const MeetupsFiltered = ({ meetups, onClose }) => {
@@ -31,4 +31,3 @@ const MeetupsFiltered = ({ meetups, onClose }) => {
 };
 
 export default MeetupsFiltered;
- */
