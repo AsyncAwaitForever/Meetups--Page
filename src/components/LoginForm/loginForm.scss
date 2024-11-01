@@ -1,4 +1,9 @@
 @import "../../styling/_variables";
+@import "../../styling/global.scss";
+
+*{
+  font-family: $main-font;
+}
 
 .loginForm-container {
   min-width: 20rem;
@@ -37,5 +42,13 @@
 
 .overlayToggle-button {
   background-color: $secondary-button-bkg-color;
+  color: $text-color;
 }
 
+.logout-button{
+  background-color: $primary-color;
+  color: $text-color;
+  //font-size: large;
+  justify-content: center;
+  justify-items: center;
+}

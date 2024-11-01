@@ -1,26 +1,27 @@
-import React, { useState } from "react";
-import FormButton from "../Button/Button";
-import { TextField, InputAdornment, IconButton } from "@mui/material";
-import { Visibility, VisibilityOff } from "@mui/icons-material";
-import "./loginForm.scss";
+import React, { useState } from 'react';
+import FormButton from '../Button/Button';
+import { TextField, InputAdornment, IconButton } from '@mui/material';
+import { Visibility, VisibilityOff } from '@mui/icons-material';
+import './loginForm.scss';
 
 const LoginForm = ({ toggleOverlay }) => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
-  const [error, setError] = useState("");
+  const [error, setError] = useState('');
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    console.log("Login attempt with:", { email, password });
+    console.log('Login attempt with:', { email, password });
 
-    const endpoint = "https://2wwh49b9bf.execute-api.eu-north-1.amazonaws.com/login";
+    const endpoint =
+      'https://2wwh49b9bf.execute-api.eu-north-1.amazonaws.com/login';
 
     try {
       const response = await fetch(endpoint, {
-        method: "POST",
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify({ email, password }),
       });
@@ -30,19 +31,19 @@ const LoginForm = ({ toggleOverlay }) => {
       }
 
       const data = await response.json();
-      console.log("Response data:", data);
+      console.log('Response data:', data);
 
       if (data.success && data.token) {
-        sessionStorage.setItem("token", data.token);
-        sessionStorage.setItem("userId", data.userId);
-        setError("");
-        alert("Login successful!");
+        sessionStorage.setItem('token', data.token);
+        sessionStorage.setItem('userId', data.userId);
+        setError('');
+        alert('Login successful!');
       } else {
-        throw new Error("Login failed: invalid response data.");
+        throw new Error('Login failed: invalid response data.');
       }
     } catch (error) {
-      console.error("Login failed:", error);
-      setError("Login failed. Please check your credentials and try again.");
+      console.error('Login failed:', error);
+      setError('Login failed. Please check your credentials and try again.');
     }
   };
 
@@ -51,13 +52,18 @@ const LoginForm = ({ toggleOverlay }) => {
   };
 
   const handleLogout = () => {
-    sessionStorage.removeItem("token");
-    alert("Token removed!");
+    sessionStorage.removeItem('token');
+    alert('Token removed!');
   };
 
   return (
     <div className="loginForm-container">
-      <FormButton type="button" text="Logout" className="logout-button" onClick={handleLogout} />
+      <FormButton
+        type="button"
+        text="Logout"
+        className="logout-button"
+        onClick={handleLogout}
+      />
       <h2>Start Your Journey</h2>
       <form onSubmit={handleLogin}>
         <TextField
@@ -65,13 +71,13 @@ const LoginForm = ({ toggleOverlay }) => {
           type="email"
           variant="outlined"
           sx={{
-            "& .MuiInputLabel-root.Mui-focused": {
-              color: "blue",
-              backgroundColor: "#A1AFFB",
-              transform: "translate(10px, -16px)",
-              padding: "2px",
-              fontSize: "16px",
-              borderRadius: "4px",
+            '& .MuiInputLabel-root.Mui-focused': {
+              color: 'blue',
+              backgroundColor: '#A1AFFB',
+              transform: 'translate(10px, -16px)',
+              padding: '2px',
+              fontSize: '16px',
+              borderRadius: '4px',
             },
           }}
           fullWidth
@@ -82,16 +88,16 @@ const LoginForm = ({ toggleOverlay }) => {
         />
         <TextField
           label="Password"
-          type={showPassword ? "text" : "password"}
+          type={showPassword ? 'text' : 'password'}
           variant="outlined"
           sx={{
-            "& .MuiInputLabel-root.Mui-focused": {
-              color: "blue",
-              backgroundColor: "#A1AFFB",
-              transform: "translate(10px, -16px)",
-              padding: "2px",
-              fontSize: "16px",
-              borderRadius: "4px",
+            '& .MuiInputLabel-root.Mui-focused': {
+              color: 'blue',
+              backgroundColor: '#A1AFFB',
+              transform: 'translate(10px, -16px)',
+              padding: '2px',
+              fontSize: '16px',
+              borderRadius: '4px',
             },
           }}
           fullWidth
@@ -111,7 +117,12 @@ const LoginForm = ({ toggleOverlay }) => {
         />
         {error && <p className="error-message">{error}</p>}
         <FormButton type="submit" text="Login" className="login-button" />
-        <FormButton type="button" text="Sign Up" className="overlayToggle-button" onClick={toggleOverlay} />
+        <FormButton
+          type="button"
+          text="Sign Up"
+          className="overlayToggle-button"
+          onClick={toggleOverlay}
+        />
       </form>
     </div>
   );
