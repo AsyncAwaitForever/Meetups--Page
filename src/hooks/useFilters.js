@@ -22,8 +22,8 @@ export const useFilters = () => {
     const params = new URLSearchParams();
 
     if (filters.date) params.append("date", filters.date);
-    if (filters.category) params.append("category", filters.category.trim()); 
-    if (filters.location) params.append("location", filters.location.trim()); 
+    if (filters.category) params.append("category", filters.category.trim().toLowerCase()); // Trim e converti in minuscolo
+    if (filters.location) params.append("location", filters.location.trim().toLowerCase()); // Trim e converti in minuscolo
 
     return `${baseUrl}?${params.toString()}`;
   };
@@ -47,7 +47,7 @@ export const useFilters = () => {
           const allResults = [];
           for (const key of Object.keys(filters)) {
             if (filters[key]) {
-              const fallbackUrl = `https://2wwh49b9bf.execute-api.eu-north-1.amazonaws.com/meetups/filter?${key}=${filters[key].trim()}`;
+              const fallbackUrl = `https://2wwh49b9bf.execute-api.eu-north-1.amazonaws.com/meetups/filter?${key}=${filters[key].trim().toLowerCase()}`; // Trim e converti in minuscolo
               const fallbackResponse = await fetch(fallbackUrl);
               if (fallbackResponse.ok) {
                 const fallbackData = await fallbackResponse.json();
