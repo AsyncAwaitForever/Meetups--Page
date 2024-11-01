@@ -4,7 +4,6 @@ import Header from "../../components/Header/Header";
 import MeetupBoard from "../../components/MeetupBoard/MeetupBoard";
 import FilterSearch from "../../components/FilterSearch/FilterSearch";
 import SearchBar from "../../components/SearchBar/SearchBar";
-import MeetupsFiltered from "../../components/MeetupsFiltered/MeetupsFiltered"; 
 import "./home.scss";
 
 export default function Home() {
