@@ -152,3 +152,14 @@
     }
   }
 }
+
+.rating-user-info {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+
+  .user-id {
+    font-weight: bold;
+    color: rgba(255, 255, 255, 0.9);
+  }
+}
