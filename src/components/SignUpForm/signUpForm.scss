@@ -6,8 +6,8 @@
 }
 
 .signup-container {
-    width: 70%;
-    height: 66%;
+  min-width: 18rem;
+  min-height: 60%;
     background-color: $secondary-color;
     display: flex;
     flex-direction: column;

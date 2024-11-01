@@ -1,0 +1,44 @@
+@import "../../styling/_variables";
+
+.searchResults-container {
+  width: 377px;
+  transform: translateY(-20px);
+}
+
+.results-list {
+  position: absolute;
+  width: 377px;
+  background: rgba(240, 240, 240, 0.8);
+  padding: 20px;
+  backdrop-filter: blur(10px);
+  border-radius: 10px;
+
+  li {
+    border: 1px solid lightgray;
+    padding: 20px;
+    text-decoration: none;
+    list-style-type: none;
+  }
+
+  h3 {
+
+    text-align: center;
+    font-size: 20px;
+    padding-bottom: 5px;
+    a {
+      text-decoration: none;
+      color: $default-button-bkg-color;
+      
+    }
+  }
+
+  .closeSearch-button {
+    position: absolute;
+    top: 24px;
+    right: 30px;
+    background: transparent;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+  }
+}
