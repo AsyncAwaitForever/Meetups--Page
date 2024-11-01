@@ -14,9 +14,8 @@ export default function AppRoutes() {
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/profile" element={<Profile />} />
-        <Route path="/meetups/:id" element={<Meetups />} />{' '}
-        {/* This route needs the :id parameter */}
-        <Route path="/review" element={<Review />} />
+        <Route path="/meetups/:id" element={<Meetups />} />{" "}
+        <Route path="/review/:meetupId" element={<Review />} />
         <Route path="/test" element={<TestPage />} />
       </Routes>
     </BrowserRouter>
