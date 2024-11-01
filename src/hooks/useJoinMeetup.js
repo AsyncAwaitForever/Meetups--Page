@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-const API_BASE_URL = "https://2wwh49b9bf.execute-api.eu-north-1.amazonaws.com";
+const API_BASE_URL = "https://3sq393e8ml.execute-api.eu-north-1.amazonaws.com";
 
 export const useJoinMeetup = () => {
   const [loading, setLoading] = useState(false);

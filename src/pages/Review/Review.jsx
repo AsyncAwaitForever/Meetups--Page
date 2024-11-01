@@ -18,7 +18,7 @@ const Review = () => {
     const fetchMeetupDetails = async () => {
       try {
         const response = await fetch(
-          `https://2wwh49b9bf.execute-api.eu-north-1.amazonaws.com/meetups/${meetupId}`
+          `https://3sq393e8ml.execute-api.eu-north-1.amazonaws.com/meetups/${meetupId}`
         );
         if (!response.ok) throw new Error("Failed to fetch meetup details");
         const data = await response.json();
@@ -51,7 +51,7 @@ const Review = () => {
     try {
       const token = sessionStorage.getItem("token");
       const response = await fetch(
-        `https://2wwh49b9bf.execute-api.eu-north-1.amazonaws.com/meetups/${meetupId}/ratings`,
+        `https://3sq393e8ml.execute-api.eu-north-1.amazonaws.com/meetups/${meetupId}/ratings`,
         {
           method: "POST",
           headers: {

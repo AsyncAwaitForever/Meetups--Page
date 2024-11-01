@@ -18,7 +18,7 @@ export const useFilters = () => {
   };
 
   const generateUrl = () => {
-    const baseUrl = "https://2wwh49b9bf.execute-api.eu-north-1.amazonaws.com/meetups/filter";
+    const baseUrl = "https://3sq393e8ml.execute-api.eu-north-1.amazonaws.com/meetups/filter";
     const params = new URLSearchParams();
 
     if (filters.date) params.append("date", filters.date);

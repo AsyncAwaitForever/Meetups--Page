@@ -1,12 +1,5 @@
 import React, { useState } from "react";
-import {
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogActions,
-  TextField,
-  Button,
-} from "@mui/material";
+import { Dialog, DialogTitle, DialogContent, DialogActions, TextField, Button } from "@mui/material";
 
 const FilterSearch = ({ open, onClose, onSearch }) => {
   const [date, setDate] = useState("");
@@ -24,14 +17,7 @@ const FilterSearch = ({ open, onClose, onSearch }) => {
     <Dialog open={open} onClose={onClose} fullWidth maxWidth="sm">
       <DialogTitle>Filter Search</DialogTitle>
       <DialogContent>
-        <TextField
-          label="Date"
-          type="date"
-          value={date}
-          onChange={(e) => setDate(e.target.value)}
-          fullWidth
-          margin="normal"
-        />
+        <TextField type="date" value={date} onChange={(e) => setDate(e.target.value)} fullWidth margin="normal" />
         <TextField
           label="Category"
           value={category}
