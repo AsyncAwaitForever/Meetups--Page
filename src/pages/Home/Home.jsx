@@ -73,36 +73,21 @@ export default function Home() {
         ) : (
           <>
             <MeetupBoard meetups={meetups} setFilterVisible={setFilterVisible} />
-            <div className="meetups-list">
-              {showFiltered && filteredMeetups.length === 0 ? (
-                <div className="no-results">No results found</div>
-              ) : (
-                filteredMeetups.map(meetup => (
-                  <div key={meetup.meetupId}>
-                    <h2>{meetup.title}</h2>
-                    <p>{meetup.description}</p>
-                    <p>Location: {meetup.location}</p>
-                    <p>Category: {meetup.category}</p>
-                    <p>Time: {new Date(meetup.time).toLocaleString()}</p>
-                  </div>
-                ))
-              )}
-            </div>
+            <FilterSearch
+              open={filterVisible}
+              onClose={() => setFilterVisible(false)}
+              onSearch={handleSearch}
+            />
+            {showFiltered && filteredMeetups.length > 0 && (
+              <MeetupsFiltered
+                meetups={filteredMeetups} 
+                onClose={() => {
+                  setShowFiltered(false); 
+                  setFilteredMeetups([]); 
+                }} 
+              />
+            )}
           </>
-        )}
-        <FilterSearch
-          open={filterVisible}
-          onClose={() => setFilterVisible(false)}
-          onSearch={handleSearch}
-        />
-        {showFiltered && filteredMeetups.length > 0 && (
-          <MeetupsFiltered
-            meetups={filteredMeetups} 
-            onClose={() => {
-              setShowFiltered(false); 
-              setFilteredMeetups([]); 
-            }} 
-          />
         )}
       </div>
     </>

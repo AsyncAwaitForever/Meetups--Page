@@ -17,15 +17,12 @@ const useSearch = () => {
       return;
     }
 
-    const endpoint = `https://2wwh49b9bf.execute-api.eu-north-1.amazonaws.com/meetups/search?keyword=${encodeURIComponent(query)}`;
+    const normalizedQuery = query.toLowerCase().trim();
 
     try {
-      const response = await fetch(endpoint, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      const response = await fetch(
+        "https://2wwh49b9bf.execute-api.eu-north-1.amazonaws.com/meetups"
+      );
 
       if (!response.ok) {
         const errorText = await response.text();
@@ -33,8 +30,10 @@ const useSearch = () => {
       }
 
       const data = await response.json();
+
       setResults(data.meetups); 
       setHasSearched(true); 
+
 
     } catch (err) {
       setError(err.message);

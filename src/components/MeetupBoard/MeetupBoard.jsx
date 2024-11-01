@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import "./meetupBoard.scss";
 import MeetupCard from "../MeetupCard/MeetupCard";
 

@@ -1,6 +1,6 @@
 import { useState, useCallback, useEffect } from "react";
 
-const API_BASE_URL = "https://uw8qzn03l8.execute-api.eu-north-1.amazonaws.com";
+const API_BASE_URL = "https://2wwh49b9bf.execute-api.eu-north-1.amazonaws.com";
 
 export const useRatings = (meetupId) => {
   const [ratings, setRatings] = useState([]);
@@ -12,8 +12,15 @@ export const useRatings = (meetupId) => {
 
     setLoading(true);
     try {
+      const token = sessionStorage.getItem("token"); // Get auth token
       const response = await fetch(
-        `${API_BASE_URL}/meetups/${meetupId}/ratings`
+        `${API_BASE_URL}/meetups/${meetupId}/ratings`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            ...(token && { Authorization: `Bearer ${token}` }),
+          },
+        }
       );
 
       if (!response.ok) {
@@ -21,8 +28,6 @@ export const useRatings = (meetupId) => {
       }
 
       const data = await response.json();
-      console.log("Ratings response:", data);
-
       setRatings(data.ratings || []);
       setError(null);
     } catch (error) {
