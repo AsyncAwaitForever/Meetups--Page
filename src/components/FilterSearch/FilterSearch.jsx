@@ -16,15 +16,12 @@ const FilterSearch = ({ open, onClose, onSearch }) => {
   const [error, setError] = useState("");
 
   const handleSearch = () => {
-    if (category.length >= 2 || location.length >= 2 || date) {
-      const filters = { date, category, location };
-      console.log('Searching with filters:', filters); // Logga i filtri
-      onSearch(filters);
-      onClose();
-      setError("");
-    } else {
-      setError("Enter at least 2 characters per category or locality.");
-    }
+    
+    const filters = { date, category, location };
+    console.log('Searching with filters:', filters); 
+    onSearch(filters);
+    onClose();
+    setError("");
   };
 
   return (

@@ -21,11 +21,13 @@ export const useFilters = () => {
     const baseUrl = "https://2wwh49b9bf.execute-api.eu-north-1.amazonaws.com/meetups/filter";
     const params = new URLSearchParams();
 
+    // Aggiungi parametri solo se sono presenti
     if (filters.date) params.append("date", filters.date);
-    if (filters.category) params.append("category", filters.category.trim().toLowerCase()); // Trim e converti in minuscolo
-    if (filters.location) params.append("location", filters.location.trim().toLowerCase()); // Trim e converti in minuscolo
+    if (filters.category) params.append("category", filters.category.trim().toLowerCase());
+    if (filters.location) params.append("location", filters.location.trim().toLowerCase());
 
-    return `${baseUrl}?${params.toString()}`;
+    // Se non ci sono filtri, restituisci l'URL di base
+    return `${baseUrl}${params.toString() ? '?' + params.toString() : ''}`;
   };
 
   useEffect(() => {
@@ -41,30 +43,10 @@ export const useFilters = () => {
         const data = await response.json();
         console.log("Fetched meetups:", data.meetups);
 
-        if (Array.isArray(data.meetups) && data.meetups.length > 0) {
+        if (Array.isArray(data.meetups)) {
           setMeetups(data.meetups);
         } else {
-          const allResults = [];
-          for (const key of Object.keys(filters)) {
-            if (filters[key]) {
-              const fallbackUrl = `https://2wwh49b9bf.execute-api.eu-north-1.amazonaws.com/meetups/filter?${key}=${filters[key].trim().toLowerCase()}`; // Trim e converti in minuscolo
-              const fallbackResponse = await fetch(fallbackUrl);
-              if (fallbackResponse.ok) {
-                const fallbackData = await fallbackResponse.json();
-                console.log(`Fallback fetched meetups for ${key}:`, fallbackData.meetups);
-
-                if (Array.isArray(fallbackData.meetups)) {
-                  allResults.push(...fallbackData.meetups);
-                }
-              } else {
-                console.error(`Error fetching fallback meetups for ${key}:`, fallbackResponse.statusText);
-              }
-            }
-          }
-          const uniqueResults = Array.from(new Set(allResults.map(meetup => meetup.meetupId)))
-                                      .map(id => allResults.find(meetup => meetup.meetupId === id));
-          setMeetups(uniqueResults);
-          console.log("Unique fallback meetups:", uniqueResults);
+          setMeetups([]); // Imposta a vuoto se non ci sono meetups
         }
       } catch (err) {
         setError(err.message);

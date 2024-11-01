@@ -19,17 +19,23 @@ export default function Home() {
     console.log('New filters from FilterSearch:', newFilters); 
     updateFilters(newFilters); 
 
-    const filtered = meetups.filter(meetup => {
-      const matchesCategory = newFilters.category ? meetup.category === newFilters.category : true;
-      const matchesLocation = newFilters.location ? meetup.location.toLowerCase().includes(newFilters.location.toLowerCase().trim()) : true;
+    // Se non ci sono filtri, mostra tutti i meetups
+    if (!newFilters.category && !newFilters.location) {
+      setFilteredMeetups(meetups);
+      setShowFiltered(true);
+    } else {
+      // Altrimenti filtra in base ai parametri forniti
+      const filtered = meetups.filter(meetup => {
+        const matchesCategory = newFilters.category ? meetup.category === newFilters.category : true;
+        const matchesLocation = newFilters.location ? meetup.location.toLowerCase().includes(newFilters.location.toLowerCase().trim()) : true;
 
-      return matchesCategory || matchesLocation; 
-    });
+        return matchesCategory && matchesLocation; // Uso l'AND per i filtri
+      });
 
-    setFilteredMeetups(filtered);
-    
- 
-    setShowFiltered(filtered.length > 0); 
+      setFilteredMeetups(filtered);
+      setShowFiltered(filtered.length > 0); 
+    }
+
     setFilterVisible(false);
   };
 
