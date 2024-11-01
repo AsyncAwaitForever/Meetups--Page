@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-import { useMeetups } from "../../hooks/useMeetups";
+import React, { useState, useEffect } from "react";
 import { useFilters } from "../../hooks/useFilters"; 
 import Header from "../../components/Header/Header";
 import MeetupBoard from "../../components/MeetupBoard/MeetupBoard";
@@ -10,33 +9,53 @@ import "./home.scss";
 
 export default function Home() {
   const { filters, updateFilters } = useFilters();  
-  const { meetups, loading, error } = useMeetups();
   const [filterVisible, setFilterVisible] = useState(false);
   const [filteredMeetups, setFilteredMeetups] = useState([]); 
   const [showFiltered, setShowFiltered] = useState(false); 
+  const [meetups, setMeetups] = useState([]); 
+  const [loading, setLoading] = useState(false); 
+  const [error, setError] = useState(""); 
+
+  const fetchMeetups = async () => {
+    setLoading(true);
+    const url = "https://2wwh49b9bf.execute-api.eu-north-1.amazonaws.com/meetups"; 
+
+    try {
+      const response = await fetch(url);
+      if (!response.ok) throw new Error("Network response was not ok");
+
+      const data = await response.json();
+      setMeetups(data.meetups);
+      setError("");
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchMeetups();
+  }, []);
 
   const handleSearch = (newFilters) => {
-    console.log('New filters from FilterSearch:', newFilters); 
-    updateFilters(newFilters); 
+    updateFilters(newFilters);
 
-    // Se non ci sono filtri, mostra tutti i meetups
-    if (!newFilters.category && !newFilters.location) {
-      setFilteredMeetups(meetups);
-      setShowFiltered(true);
-    } else {
-      // Altrimenti filtra in base ai parametri forniti
-      const filtered = meetups.filter(meetup => {
-        const matchesCategory = newFilters.category ? meetup.category === newFilters.category : true;
-        const matchesLocation = newFilters.location ? meetup.location.toLowerCase().includes(newFilters.location.toLowerCase().trim()) : true;
+    const filtered = meetups.filter(meetup => {
+      const matchesCategory = newFilters.category ? meetup.category === newFilters.category : true;
+      const matchesLocation = newFilters.location ? meetup.location.toLowerCase().includes(newFilters.location.toLowerCase().trim()) : true;
+      const matchesDate = newFilters.date ? new Date(meetup.time).toISOString().split("T")[0] === newFilters.date : true;
 
-        return matchesCategory && matchesLocation; // Uso l'AND per i filtri
-      });
+      return matchesCategory && matchesLocation && matchesDate;
+    });
 
-      setFilteredMeetups(filtered);
-      setShowFiltered(filtered.length > 0); 
-    }
-
+    setFilteredMeetups(filtered);
+    setShowFiltered(filtered.length > 0);
     setFilterVisible(false);
+
+    if (filtered.length === 0) {
+      alert("No results found");
+    }
   };
 
   return (
@@ -52,17 +71,37 @@ export default function Home() {
             <button onClick={() => window.location.reload()}>Try Again</button>
           </div>
         ) : (
-          <MeetupBoard meetups={meetups} setFilterVisible={setFilterVisible} />
+          <>
+            <MeetupBoard meetups={meetups} setFilterVisible={setFilterVisible} />
+            <div className="meetups-list">
+              {showFiltered && filteredMeetups.length === 0 ? (
+                <div className="no-results">No results found</div>
+              ) : (
+                filteredMeetups.map(meetup => (
+                  <div key={meetup.meetupId}>
+                    <h2>{meetup.title}</h2>
+                    <p>{meetup.description}</p>
+                    <p>Location: {meetup.location}</p>
+                    <p>Category: {meetup.category}</p>
+                    <p>Time: {new Date(meetup.time).toLocaleString()}</p>
+                  </div>
+                ))
+              )}
+            </div>
+          </>
         )}
         <FilterSearch
           open={filterVisible}
           onClose={() => setFilterVisible(false)}
           onSearch={handleSearch}
         />
-        {showFiltered && (
+        {showFiltered && filteredMeetups.length > 0 && (
           <MeetupsFiltered
             meetups={filteredMeetups} 
-            onClose={() => setShowFiltered(false)} 
+            onClose={() => {
+              setShowFiltered(false); 
+              setFilteredMeetups([]); 
+            }} 
           />
         )}
       </div>

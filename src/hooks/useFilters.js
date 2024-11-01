@@ -21,13 +21,11 @@ export const useFilters = () => {
     const baseUrl = "https://2wwh49b9bf.execute-api.eu-north-1.amazonaws.com/meetups/filter";
     const params = new URLSearchParams();
 
-    // Aggiungi parametri solo se sono presenti
     if (filters.date) params.append("date", filters.date);
     if (filters.category) params.append("category", filters.category.trim().toLowerCase());
     if (filters.location) params.append("location", filters.location.trim().toLowerCase());
 
-    // Se non ci sono filtri, restituisci l'URL di base
-    return `${baseUrl}${params.toString() ? '?' + params.toString() : ''}`;
+    return `${baseUrl}?${params.toString()}`;
   };
 
   useEffect(() => {
@@ -43,10 +41,12 @@ export const useFilters = () => {
         const data = await response.json();
         console.log("Fetched meetups:", data.meetups);
 
-        if (Array.isArray(data.meetups)) {
+        if (Array.isArray(data.meetups) && data.meetups.length > 0) {
           setMeetups(data.meetups);
+          setError("");
         } else {
-          setMeetups([]); // Imposta a vuoto se non ci sono meetups
+          setMeetups([]);
+          setError("No results found.");
         }
       } catch (err) {
         setError(err.message);

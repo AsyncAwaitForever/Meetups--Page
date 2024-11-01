@@ -7,7 +7,6 @@ import {
   TextField,
   Button,
 } from "@mui/material";
-import "./filterSearch.scss";
 
 const FilterSearch = ({ open, onClose, onSearch }) => {
   const [date, setDate] = useState("");
@@ -16,12 +15,10 @@ const FilterSearch = ({ open, onClose, onSearch }) => {
   const [error, setError] = useState("");
 
   const handleSearch = () => {
-    
     const filters = { date, category, location };
-    console.log('Searching with filters:', filters); 
+    
     onSearch(filters);
     onClose();
-    setError("");
   };
 
   return (
