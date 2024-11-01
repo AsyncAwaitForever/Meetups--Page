@@ -7,14 +7,18 @@ export const useFilters = () => {
     category: '',
     location: '',
   });
-  const [meetups, setMeetups] = useState([]);
+  const [meetups, setMeetups] = useState([]); // Stato per i meetups
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState("");
 
   const updateFilters = (newFilters) => {
+    const trimmedFilters = Object.fromEntries(
+      Object.entries(newFilters).map(([key, value]) => [key, value.trim()])
+    );
+
     setFilters((prevFilters) => ({
       ...prevFilters,
-      ...newFilters,
+      ...trimmedFilters,
     }));
   };
 
@@ -32,28 +36,44 @@ export const useFilters = () => {
     return url;
   };
 
-  // Esegui il fetch degli meetups ogni volta che i filtri cambiano
+  // Effettua il fetch dei dati quando i filtri cambiano
   useEffect(() => {
     const fetchMeetups = async () => {
-      const url = generateUrl();
       setLoading(true);
-      setError(null);
+      const url = generateUrl();
+
       try {
         const response = await fetch(url);
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
+        if (!response.ok) throw new Error("Network response was not ok");
+
         const data = await response.json();
-        setMeetups(data); // Imposta i meetups ricevuti
-        console.log("Fetched meetups:", data); // Logga i risultati
-      } catch (error) {
-        setError(error.message);
+        console.log("Raw fetched data:", data); // Logga i dati grezzi
+
+        if (Array.isArray(data.meetups)) {
+          setMeetups(data.meetups); // Imposta i meetups ricevuti
+        } else {
+          throw new Error("Fetched data.meetups is not an array");
+        }
+      } catch (err) {
+        console.error("Failed to fetch meetups:", err);
+        setError(err.message);
       } finally {
         setLoading(false);
       }
     };
 
-    fetchMeetups();
+    // Esegui il fetch solo se ci sono filtri o carica i meetups principali
+    if (filters.date || filters.category || filters.location) {
+      fetchMeetups();
+    } else {
+      // Qui puoi caricare i meetups principali o predefiniti se necessario
+      setMeetups([]); // Sostituisci con i meetups principali se disponibili
+    }
+  }, [filters]); // Fetch solo quando i filtri cambiano
+
+  // Logga l'URL ogni volta che i filtri cambiano
+  useEffect(() => {
+    generateUrl();
   }, [filters]);
 
   return { filters, updateFilters, meetups, loading, error };
