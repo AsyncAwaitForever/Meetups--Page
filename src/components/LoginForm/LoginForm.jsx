@@ -14,7 +14,7 @@ const LoginForm = ({ toggleOverlay }) => {
     e.preventDefault();
     console.log("Login attempt with:", { email, password });
 
-    const endpoint = "https://2wwh49b9bf.execute-api.eu-north-1.amazonaws.com/login";
+    const endpoint = "https://3sq393e8ml.execute-api.eu-north-1.amazonaws.com/login";
 
     try {
       const response = await fetch(endpoint, {

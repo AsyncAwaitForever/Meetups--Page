@@ -21,7 +21,7 @@ const useSearch = () => {
 
     try {
       const response = await fetch(
-        "https://2wwh49b9bf.execute-api.eu-north-1.amazonaws.com/meetups"
+        "https://3sq393e8ml.execute-api.eu-north-1.amazonaws.com/meetups"
       );
 
       if (!response.ok) {

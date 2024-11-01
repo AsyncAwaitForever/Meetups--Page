@@ -71,7 +71,7 @@ const Meetups = () => {
 
     try {
       const response = await fetch(
-        `https://2wwh49b9bf.execute-api.eu-north-1.amazonaws.com/meetups/${id}/register`,
+        `https://3sq393e8ml.execute-api.eu-north-1.amazonaws.com/meetups/${id}/register`,
         {
           method: "POST",
           headers: {
@@ -117,7 +117,7 @@ const Meetups = () => {
 
     try {
       const response = await fetch(
-        `https://2wwh49b9bf.execute-api.eu-north-1.amazonaws.com/meetups/${id}/unregister`,
+        `https://3sq393e8ml.execute-api.eu-north-1.amazonaws.com/meetups/${id}/unregister`,
         {
           method: "DELETE",
           headers: {
