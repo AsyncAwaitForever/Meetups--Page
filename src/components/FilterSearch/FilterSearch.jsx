@@ -1,21 +1,34 @@
 import React, { useState } from "react";
-import { Dialog, DialogTitle, DialogContent, DialogActions, TextField, Button, MenuItem } from "@mui/material";
+import {
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  TextField,
+  Button,
+} from "@mui/material";
 import "./filterSearch.scss";
-
-const categories = ["Category 1", "Category 2", "Category 3"];
 
 const FilterSearch = ({ open, onClose, onSearch }) => {
   const [date, setDate] = useState("");
   const [category, setCategory] = useState("");
   const [location, setLocation] = useState("");
+  const [error, setError] = useState("");
 
   const handleSearch = () => {
-    onSearch({ date, category, location });
-    onClose();
+    if (category.length >= 2 || location.length >= 2 || date) {
+      const filters = { date, category, location };
+      console.log('Searching with filters:', filters); // Logga i filtri
+      onSearch(filters);
+      onClose();
+      setError("");
+    } else {
+      setError("Enter at least 2 characters per category or locality.");
+    }
   };
 
   return (
-    <Dialog open={open} onClose={onClose}>
+    <Dialog open={open} onClose={onClose} fullWidth maxWidth="sm">
       <DialogTitle>Filter Search</DialogTitle>
       <DialogContent>
         <TextField
@@ -32,7 +45,7 @@ const FilterSearch = ({ open, onClose, onSearch }) => {
           onChange={(e) => setCategory(e.target.value)}
           fullWidth
           margin="normal"
-        ></TextField>
+        />
         <TextField
           label="Location"
           value={location}
@@ -40,6 +53,7 @@ const FilterSearch = ({ open, onClose, onSearch }) => {
           fullWidth
           margin="normal"
         />
+        {error && <p className="error-message">{error}</p>}
       </DialogContent>
       <DialogActions>
         <Button onClick={onClose} color="primary">
