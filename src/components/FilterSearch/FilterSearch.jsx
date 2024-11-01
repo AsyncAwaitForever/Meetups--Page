@@ -16,7 +16,6 @@ const FilterSearch = ({ open, onClose, onSearch }) => {
 
   const handleSearch = () => {
     const filters = { date, category, location };
-    
     onSearch(filters);
     onClose();
   };

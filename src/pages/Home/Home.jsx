@@ -8,54 +8,31 @@ import MeetupsFiltered from "../../components/MeetupsFiltered/MeetupsFiltered";
 import "./home.scss";
 
 export default function Home() {
-  const { filters, updateFilters } = useFilters();
+  const { updateFilters, meetups, loading, error: fetchError } = useFilters();
   const [filterVisible, setFilterVisible] = useState(false);
   const [filteredMeetups, setFilteredMeetups] = useState([]);
   const [showFiltered, setShowFiltered] = useState(false);
-  const [meetups, setMeetups] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
-
-  const fetchMeetups = async () => {
-    setLoading(true);
-    const url =
-      "https://2wwh49b9bf.execute-api.eu-north-1.amazonaws.com/meetups";
-
-    try {
-      const response = await fetch(url);
-      if (!response.ok) throw new Error("Network response was not ok");
-
-      const data = await response.json();
-      setMeetups(data.meetups);
-      setError("");
-    } catch (err) {
-      setError(err.message);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    fetchMeetups();
-  }, []);
-
+  const [searchError, setSearchError] = useState("");
   const handleSearch = (newFilters) => {
     updateFilters(newFilters);
+    setSearchError("");
+
+    if (!newFilters.date && !newFilters.category && !newFilters.location) {
+      setFilteredMeetups(meetups);
+      setShowFiltered(true);
+      return;
+    }
 
     const filtered = meetups.filter((meetup) => {
-      const matchesCategory = newFilters.category
-        ? meetup.category === newFilters.category
-        : true;
+      const matchesCategory = newFilters.category ? meetup.category === newFilters.category : false;
       const matchesLocation = newFilters.location
-        ? meetup.location
-            .toLowerCase()
-            .includes(newFilters.location.toLowerCase().trim())
-        : true;
+        ? meetup.location.toLowerCase().includes(newFilters.location.toLowerCase().trim())
+        : false;
       const matchesDate = newFilters.date
         ? new Date(meetup.time).toISOString().split("T")[0] === newFilters.date
-        : true;
+        : false;
 
-      return matchesCategory && matchesLocation && matchesDate;
+      return matchesCategory || matchesLocation || matchesDate;
     });
 
     setFilteredMeetups(filtered);
@@ -63,7 +40,7 @@ export default function Home() {
     setFilterVisible(false);
 
     if (filtered.length === 0) {
-      alert("No results found");
+      setSearchError("No results found for your search.");
     }
   };
 
@@ -74,45 +51,30 @@ export default function Home() {
         <SearchBar />
         {loading ? (
           <div className="loading-message">Loading meetups...</div>
-        ) : error ? (
+        ) : fetchError ? (
           <div className="error-message">
-            {error}
+            {fetchError}
             <button onClick={() => window.location.reload()}>Try Again</button>
           </div>
         ) : (
           <>
-            <MeetupBoard
-              meetups={meetups}
-              setFilterVisible={setFilterVisible}
-            />
-            <div className="meetups-list">
-              {showFiltered && filteredMeetups.length === 0 ? (
-                <div className="no-results">No results found</div>
-              ) : (
-                filteredMeetups.map((meetup) => (
-                  <div key={meetup.meetupId}>
-                    <h2>{meetup.title}</h2>
-                    <p>{meetup.description}</p>
-                    <p>Location: {meetup.location}</p>
-                    <p>Category: {meetup.category}</p>
-                    <p>Time: {new Date(meetup.time).toLocaleString()}</p>
-                  </div>
-                ))
-              )}
-            </div>
+            <MeetupBoard meetups={meetups} setFilterVisible={setFilterVisible} />
+            {searchError && (
+              <div className="error-message">
+                {searchError}
+                <button onClick={() => setSearchError("")}>Clear Error</button>
+              </div>
+            )}
           </>
         )}
-        <FilterSearch
-          open={filterVisible}
-          onClose={() => setFilterVisible(false)}
-          onSearch={handleSearch}
-        />
+        <FilterSearch open={filterVisible} onClose={() => setFilterVisible(false)} onSearch={handleSearch} />
         {showFiltered && filteredMeetups.length > 0 && (
           <MeetupsFiltered
             meetups={filteredMeetups}
             onClose={() => {
               setShowFiltered(false);
               setFilteredMeetups([]);
+              setSearchError("");
             }}
           />
         )}
