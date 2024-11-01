@@ -13,7 +13,7 @@ export default function Home() {
   const [filterVisible, setFilterVisible] = useState(false);
 
   const handleSearch = (newFilters) => {
-    console.log('New filters from FilterSearch:', newFilters); // Logga i nuovi filtri
+    console.log('New filters from FilterSearch:', newFilters); 
     updateFilters(newFilters); 
     setFilterVisible(false);
   };
