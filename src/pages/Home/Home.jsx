@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useFilters } from "../../hooks/useFilters";
 import Header from "../../components/Header/Header";
 import MeetupBoard from "../../components/MeetupBoard/MeetupBoard";
@@ -8,14 +8,14 @@ import MeetupsFiltered from "../../components/MeetupsFiltered/MeetupsFiltered";
 import "./home.scss";
 
 export default function Home() {
-  const { filters, updateFilters, meetups, loading, error: fetchError } = useFilters();
+  const { updateFilters, meetups, loading, error: fetchError } = useFilters();
   const [filterVisible, setFilterVisible] = useState(false);
   const [filteredMeetups, setFilteredMeetups] = useState([]);
   const [showFiltered, setShowFiltered] = useState(false);
-  const [searchError, setSearchError] = useState(""); 
+  const [searchError, setSearchError] = useState("");
   const handleSearch = (newFilters) => {
     updateFilters(newFilters);
-    setSearchError(""); 
+    setSearchError("");
 
     if (!newFilters.date && !newFilters.category && !newFilters.location) {
       setFilteredMeetups(meetups);
@@ -23,10 +23,14 @@ export default function Home() {
       return;
     }
 
-    const filtered = meetups.filter(meetup => {
+    const filtered = meetups.filter((meetup) => {
       const matchesCategory = newFilters.category ? meetup.category === newFilters.category : false;
-      const matchesLocation = newFilters.location ? meetup.location.toLowerCase().includes(newFilters.location.toLowerCase().trim()) : false;
-      const matchesDate = newFilters.date ? new Date(meetup.time).toISOString().split("T")[0] === newFilters.date : false;
+      const matchesLocation = newFilters.location
+        ? meetup.location.toLowerCase().includes(newFilters.location.toLowerCase().trim())
+        : false;
+      const matchesDate = newFilters.date
+        ? new Date(meetup.time).toISOString().split("T")[0] === newFilters.date
+        : false;
 
       return matchesCategory || matchesLocation || matchesDate;
     });
@@ -36,7 +40,7 @@ export default function Home() {
     setFilterVisible(false);
 
     if (filtered.length === 0) {
-      setSearchError("No results found for your search."); 
+      setSearchError("No results found for your search.");
     }
   };
 
@@ -63,18 +67,14 @@ export default function Home() {
             )}
           </>
         )}
-        <FilterSearch
-          open={filterVisible}
-          onClose={() => setFilterVisible(false)}
-          onSearch={handleSearch}
-        />
+        <FilterSearch open={filterVisible} onClose={() => setFilterVisible(false)} onSearch={handleSearch} />
         {showFiltered && filteredMeetups.length > 0 && (
           <MeetupsFiltered
             meetups={filteredMeetups}
             onClose={() => {
               setShowFiltered(false);
               setFilteredMeetups([]);
-              setSearchError(""); 
+              setSearchError("");
             }}
           />
         )}
